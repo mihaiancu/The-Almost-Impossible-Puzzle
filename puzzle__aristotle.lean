@@ -26,9 +26,6 @@ import Mathlib.LinearAlgebra.StdBasis
 import Init.Data.Fin.Basic
 import Mathlib.Algebra.Group.Action.Pointwise.Finset
 
-set_option linter.style.longLine false
-set_option linter.style.refine false
-
 def HasStrategy (n : ℕ) : Prop :=
   ∃ f : (Fin n → ZMod 2) → Fin n,
     ∀ (z : Fin n → ZMod 2) (k : Fin n), ∃ i : Fin n, f (z + Pi.single i 1) = k
