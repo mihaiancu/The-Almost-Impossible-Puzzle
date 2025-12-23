@@ -27,18 +27,17 @@ theorem puzzle (n : ℕ) (hn : 1 ≤ n) : let Z2n := (Fin n → ZMod 2)
       by_contra h_not_pow_of_two
       have h_div : n ∣ 2^n := by
         -- For each $z \in \mathbb{Z}_2^n$, the set $\{f(z + e_i) \mid i \in \{0, 1, \ldots, n-1\}\}$ must cover all of $\mathbb{Z}_n$.
-        have h_cover : ∀ z : (Fin n) → (ZMod 2),
-          Finset.image (fun i => f (z + Pi.single i 1)) Finset.univ = Finset.univ := by
-            exact fun z =>  Finset.eq_univ_of_forall fun k => by
-               obtain ⟨ i, hi ⟩ := hf z k; exact Finset.mem_image.mpr ⟨ i, Finset.mem_univ _, hi ⟩ ;
+        have h_cover : ∀ z : (Fin n) → (ZMod 2), Finset.image (fun i => f (z + Pi.single i 1)) Finset.univ = Finset.univ := by
+            exact fun z =>  Finset.eq_univ_of_forall
+                              fun k => by obtain ⟨ i, hi ⟩ := hf z k; exact Finset.mem_image.mpr ⟨ i, Finset.mem_univ _, hi ⟩ ;
         -- Consider the sum $\sum_{z \in \mathbb{Z}_2^n} \sum_{i=0}^{n-1} \delta_{f(z + e_i), k}$
         -- for each $k \in \mathbb{Z}_n$, where $\delta$ is the Kronecker delta.
         have h_sum : ∀ k : Fin n, ∑ z : (Fin n) → (ZMod 2), ∑ i : Fin n,
                                   (if f (z + Pi.single i 1) = k then 1 else 0) = 2^n := by
           intro k; rw [ Finset.sum_comm ] ; simp_all;
           rw [ ← Finset.card_biUnion ];
-          · convert Finset.card_univ ( α := Fin n → ZMod 2 ) using 2 ; ext z ; aesop;
-            norm_num [ Fintype.card_pi ];
+          · convert Finset.card_univ ( α := Fin n → ZMod 2 ) using 2 ;
+            ext z; aesop; norm_num [ Fintype.card_pi ];
           · intro i hi j hj hij; simp_all +decide [ Finset.disjoint_left ] ;
             intro z hz₁ hz₂;
             have := Finset.card_image_iff.mp ( by
