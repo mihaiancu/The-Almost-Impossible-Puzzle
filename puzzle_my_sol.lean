@@ -25,7 +25,7 @@ lemma basis_card (n : ℕ) : (basis n).card = n := by
   simp [Finset.card_image_of_injective (s := univ) H]
 
 
-theorem thm1 (n : ℕ) (hn : 1 ≤ n) : let Z2n := (Fin n → ZMod 2)
+theorem puzzle (n : ℕ) (hn : 1 ≤ n) : let Z2n := (Fin n → ZMod 2)
   (∃ f:Z2n → Fin n,
     ∀ (z: Z2n) (k:Fin n),
       ∃ (i:Fin n), f (z+(Pi.single i 1))=k)
